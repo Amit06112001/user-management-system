@@ -1,0 +1,103 @@
+==================================================
+USER MANAGEMENT SYSTEM DOCUMENTATION
+==================================================
+
+1. PROJECT OVERVIEW
+------------------
+A complete Role-Based Access Control (RBAC) system built with:
+- Laravel 10
+- MySQL
+- Laravel Passport (OAuth2)
+- Redis caching
+- Queue workers
+
+2. KEY FEATURES
+--------------
+• Authentication: Passport token-based secure login/logout
+• Role Management: 3-tier roles (SuperAdmin/Admin/User)
+• Access Control: Policy-based permission system
+• Soft Deletes: Non-destructive user deletion
+• Bulk Operations: Queue-based user creation
+• Performance: Redis caching for user lists
+
+3. SYSTEM REQUIREMENTS
+---------------------
+- PHP 8.1+
+- MySQL 8.0+
+- Redis (for caching)
+- Composer 2.0+
+- Node.js (for frontend if applicable)
+
+4. INSTALLATION GUIDE
+--------------------
+4.1 Server Setup:
+$ git clone [your-repo-url]
+$ cd user-management-system
+$ composer install
+$ npm install
+
+4.2 Database Configuration:
+Import SQL:
+$ mysql -u root -p user_management < database/user_management.sql
+
+OR run migrations:
+$ php artisan migrate --seed
+
+Configure .env:
+DB_DATABASE=user_management
+DB_USERNAME=root
+DB_PASSWORD=
+
+4.3 Security Setup:
+$ php artisan key:generate
+$ php artisan passport:install
+$ php artisan storage:link
+
+5. API ENDPOINTS
+---------------
+Authentication:
+• POST /api/login - Get access token
+• POST /api/logout - Revoke token
+
+User Management:
+• GET    /api/users       - List users (role-based)
+• POST   /api/users       - Bulk create (Admin+)
+• PUT    /api/users/{id}  - Update user (Admin+)
+• DELETE /api/users/{id}  - Soft delete (SuperAdmin only)
+
+6. TESTING CREDENTIALS
+---------------------
+SuperAdmin:
+Email: superadmin@example.com
+Password: password
+
+Admin:
+Email: admin@example.com
+Password: password
+
+User:
+Email: user@example.com
+Password: password
+
+7. MAINTENANCE COMMANDS
+----------------------
+# Clear caches
+$ php artisan optimize:clear
+
+# Start queue worker
+$ php artisan queue:work
+
+# Regenerate Passport keys
+$ php artisan passport:keys
+
+8. SECURITY BEST PRACTICES
+-------------------------
+1. Always use HTTPS in production
+2. Set strict permissions:
+   $ chmod -R 755 storage
+   $ chmod 600 .env
+3. Regularly rotate Passport keys
+4. Implement API rate limiting
+
+LICENSE: MIT
+LAST UPDATED: [DATE]
